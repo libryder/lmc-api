@@ -1,0 +1,55 @@
+/**
+ * @version   ${project.version} ${build_date}
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - ${copyright_year} RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ */
+
+/* Frontpage Content */
+body .floatleft {float: left;margin-right: 15px;margin-left: 0;}
+body .floatright {float: right;margin-left: 15px;margin-right: 0;}
+body .nomarginbottom, body .nomarginbottom .rt-block, body ul.nomarginbottom {margin-bottom: 0;}
+.floatnone {float: none !important;}
+.clearnone {clear: none !important;}
+.rt-image {background: url(../images/typography/image.png) 0 0 repeat;padding: 5px;}
+.floatleftlast {float: left;margin-right: 0;}
+.floatrightlast {float: right;margin-left: 0;}
+.menutop li.rt-style > .item {width: auto !important;padding: 10px 0;}
+.menutop li.rt-style .item img {margin: 0 0 5px 12px;}
+.menutop li.rt-style .item span {text-align:center;}
+ul.bullet-latest li {line-height:17px !important;}
+ul.bullet-latest li a {line-height:15px !important;}
+
+.rt-demo-typo-block {padding: 5px;line-height: 150%;margin-top: 3px !important;margin-bottom: 0 !important;background: url(../images/drawer-overlay.png) 50% 0 repeat-x !important;}
+.flush .rt-demo-noflush .rt-block {padding: 15px;}
+div.fusion-module form#form-login input.inputbox {width:170px !important;}
+
+/* Custom Grid */
+.rt-demo-grid-2, .rt-demo-grid-3, .rt-demo-grid-3a, .rt-demo-grid-4, .rt-demo-grid-5, .rt-demo-grid-6, .rt-demo-grid-7 {float: left;margin-left: 10px;margin-right: 10px;}
+.rt-demo-grid-2 {width: 120px;}
+.rt-demo-grid-3 {width: 180px;}
+.rt-demo-grid-3a {width: 205px;}
+.rt-demo-grid-4 {width: 270px;}
+.rt-demo-grid-5 {width: 360px;}
+.rt-demo-grid-6 {width: 440px;}
+.rt-demo-grid-7 {width: 520px;}
+.rt-demo-grid-alpha {margin-left: 0;}
+.rt-demo-grid-omega {margin-right: 0;margin-left: 0;}
+
+/* Extensions */
+.rt-ext-img {display: block;margin: 0 auto 10px;}
+.featuretabs .roktabs-tab1 {width:940px;}
+
+/* Style Variations */
+.demo-sv-title {width: 250px;float: left;margin-right: 15px; padding: 0 6px;}
+.demo-sv-title h2 {text-align: center;}
+
+/* Tutorials */
+.demo-tut-video-img {margin-right: 15px;width: 123px;float: left;}
+
+/* RTL Stuff */
+body.rtl .floatleft {float: right;margin-right: 0;margin-left: 15px;}
+body.rtl .floatright {float: left;margin-left: 0;margin-right: 15px;}
+body.rtl .demo-sv-title {float: right;margin-right: 0;margin-left: 11px;padding-left: 0;padding-right: 6px;}
+body.rtl .demo-tut-video-img {margin-right: 0;margin-left: 15px;float: right;}
+body.rtl .rt-rokstories .rokstories-layout1 .feature-sub {margin: 0 2px 2px 0 !important;}

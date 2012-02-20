@@ -1,0 +1,71 @@
+call_details:
+  incoming:
+    id: id
+    ouid: organizational_unit_id
+    calldate: start_date
+    tracking_number: destination
+    ringto_number: target_number
+    caller_id: source
+    is_outbound: is_outbound
+    duration: duration
+    status: status
+    external_id: external_id
+    assign_to: user_id
+    external_user_id: user_id
+    user_id: user_id
+    call_detail_id: id
+  
+users:
+  incoming:
+    id: id
+    username: username
+    email:  username
+    created: created
+    first_name: first_name
+    last_name: last_name
+    ouid: organizational_unit_id
+    status: status
+    external_id: external_id
+    group_id: group_id
+    external_user_id: id
+    user_id: id
+    
+    
+groups:
+  incoming:
+    ouid: id
+    name: name
+    state: state
+    zip: zip
+    address_line_1: address_line_1
+    address_line_2: address_line_2
+    stores_only: is_store
+    external_id: external_id
+    parent_ouid: parent_id
+    id: id
+    group_id: id
+
+comments:
+  incoming:
+    comment: comment
+    is_public: public
+    call_detail_id: call_detail_id
+    user_id: user_id
+    comment_id: id
+
+tags:
+  incoming:
+    tag: name
+    user_id: user_id
+    is_public: public
+    status: status
+    tag_id: id
+
+model_map:
+  user: User
+  group: OrganizationalUnit
+  comment: Comment
+  tag: Keyword
+  call: CallDetail
+  
+delete_types: [user, group, comment, tag, call]

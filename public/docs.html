@@ -1,0 +1,774 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" >
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  	
+  <title>LogMyCalls API</title>
+
+  <link rel="stylesheet" href="/css/gantry.css" type="text/css" />
+  <link rel="stylesheet" href="/css/grid-12.css" type="text/css" />
+  <link rel="stylesheet" href="/css/g-joomla.css" type="text/css" />
+  <link rel="stylesheet" href="/css/joomla.css" type="text/css" />
+  <link rel="stylesheet" href="/css/style9.css" type="text/css" />
+  <link rel="stylesheet" href="/css/demo-styles.css" type="text/css" />
+  <link rel="stylesheet" href="/css/template.css" type="text/css" />
+  <link rel="stylesheet" href="/css/template-gecko.css" type="text/css" />
+  <link rel="stylesheet" href="/css/typography.css" type="text/css" />
+
+<style type="text/css">
+body #rt-logo {width:230px;height:66px;}
+</style>
+
+<script src="/media/system/js/mootools-core.js" type="text/javascript"></script>
+  
+</head>
+<body  class="backgroundlevel-high bodylevel-high cssstyle-style5 readonstyle-button fixedfooter-0 font-family-helvetica font-size-is-default menu-type-fusionmenu col12 option-com-content">
+	
+	<div id="rt-page-background">
+		<div id="rt-drawer">
+			<div class="rt-container">
+				<div class="clear"></div>
+
+			</div>
+		</div>
+		<div id="rt-header-surround">
+        	<div id="rt-header-surround2">
+            	<div id="rt-header-overlay">
+					<div id="rt-header">
+						<div class="rt-container">
+							<div class="rt-grid-3 rt-alpha">
+    							<div class="rt-block">
+                                    <a href="/" id="rt-logo"></a>
+                                </div>
+							</div>
+                           <!-- <div class="rt-grid-9 rt-omega">
+                                <div class="rt-fusionmenu">
+                            		<div class="nopill">
+                            			<div class="rt-menubar">
+                                        	<div class="rt-menubar2">
+                                            	<div class="rt-menubar3">
+    												 Top Navigation Area
+										</div>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div> -->
+					<div class="clear"></div>
+                </div>
+            </div>
+		</div>
+    </div>
+</div>
+<div id="rt-body-surround-bg">
+	<div class="rt-container">
+		<div id="rt-body-surround">
+        	<div id="rt-body-surround2">
+            	<div id="rt-body-surround3">
+                	<div id="rt-body-surround4">
+						<div id="rt-main-overlay">
+							<div id="rt-main" class="mb12">
+               					<div class="rt-main-inner">
+                    				<div class="rt-grid-12 ">
+                        				<div class="rt-block" style="min-height:700px">
+                        					<div class="box1 title7 details-layout3">
+                                                <div id="rt-mainbody">
+                                                    <div class="component-content rt-joomla">
+                                                        <div class="rt-article">
+                                                        
+
+<div class="item-page">
+			<div class="module-title-surround">
+            	<div class="module-title">
+					<h2 class="title">Overview</h2>
+				</div>
+            </div>
+			<div class="clear"></div>
+            
+
+<p>LogMyCalls provides a felexible and powerful API for users to programmatically manage their account. The endpoint for all methods is</p>
+
+<p><code>https://api.logmycalls.com/services/methodName</code></p>
+
+<p>  All calls must be made over https using the post method.</p>
+
+<hr />
+
+<h1>Methods  </h1>
+
+<ul>
+<li><p><strong><a href="#insertCall">insertCall</a></strong> - Insert call detail record.</p></li>
+<li><p><strong><a href="#uploadAudio">uploadAudio</a></strong> - Attach audio file to call detail.</p></li>
+<li><p><strong><a href="#insertUser">insertUser</a></strong> - Create user and assign it to an organization.</p></li>
+<li><p><strong><a href="#insertGroup">insertGroup</a></strong> - Create group and assign it to a parent organization.</p></li>
+<li><p><strong><a href="#insertComment">insertComment</a></strong> - Insert comment for call detail record.</p></li>
+<li><p><strong><a href="#insertTag">insertTag</a></strong> - Insert tag for call detail record.</p></li>
+<li><p><strong><a href="#updateCallDetail">updateCallDetail</a></strong> - Update data for a specific call detail.</p></li>
+<li><p><strong><a href="#updateUser">updateUser</a></strong> - Update data for a specific call detail.</p></li>
+<li><p><strong><a href="#updateGroup">updateGroup</a></strong> - Update data for a specific call detail.</p></li>
+<li><p><strong><a href="#getCallDetails">getCallDetails</a></strong> - Returns a single, or list of, call detail record(s) based on search criteria.</p></li>
+<li><p><strong><a href="#getGroups">getGroups</a></strong> - Returns a single, or list of, groups within an organizational unit based on search criteria.</p></li>
+<li><p><strong><a href="#getSubscriptionInfo">getSubscriptionInfo</a></strong> - Returns information about your subscription.</p></li>
+<li><p><strong><a href="#getUsers">getUsers</a></strong> - Returns a single, or list of, users within a group or ogranization based on search criteria.</p></li>
+<li><p><strong><a href="#deleteRecord">deleteRecord</a></strong> - Deletes record from account.</p></li>
+</ul>
+
+
+<hr />
+
+<h2><a name="insertCall">insertCall</a></h2>
+
+<p><strong>Description</strong>: Insert call detail. Audio for inserted calls must be received separately.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (required)</p>
+
+<p><strong>api_secret</strong> (required)</p>
+
+<p><strong>call_date</strong> (required)<br/>
+Time the call started. Format: YYYY-MM-DD HH:MM:SS.<br/>
+example: 2011-08-24 00:00:00</p>
+
+<p><strong>ouid</strong> (required)<br/>
+ID of the organizational unit to assign call to. Either the ouid or external_ouid must be specified for this method.</p>
+
+<p><strong>external_ouid</strong> (optional)<br/>
+ID of the organizational unit to assign call to. Either the ouid or external_ouid must be specified for this method.</p>
+
+<p><strong>caller_id</strong> (optional)</p>
+
+<p><strong>tracking_number</strong> (optional)<br/>
+The tracking number to assign this call to. Note: if the tracking number you specify already
+belongs to an organization you do not have access to, an error will be returned. If a tracking number isn't specified it will be sortable as "Uploaded" in the "filter by" widget.<br/>
+Format: 12223334444.</p>
+
+<p><strong>ringto_number</strong> (optional)<br/>
+The number that was called.<br/>
+Format: 12223334444</p>
+
+<p><strong>call_type</strong> (optional)<br/>
+Specify whether the call was inbound or outbound.</p>
+
+<p><strong>assign_to</strong> (optional)<br/>
+The email address of the user to assign this call to.<br/>
+Format: user@domain.com</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. This is useful when you want to search using our
+api using the id of the record in your database.</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If the upload and insertion was successful, the following json is returned:
+<code>{"status": "success", "call_detail_id": "56342"}</code></p>
+
+<p>If the upload was unsuccessful, the following json is returned:
+<code>{"status": "error", "error_message": "Wrong file format"}</code></p>
+
+<hr />
+
+<h2><a name="uploadAudio">uploadAudio</a></h2>
+
+<p><strong>Description</strong>: Attach audio file to call detail. Audio for inserted calls must be received separately. This method can also be used to update
+and existing audio file for a call.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (required)</p>
+
+<p><strong>api_secret</strong> (required)</p>
+
+<p><strong>audio</strong> (required)<br/>
+Audio file. Accepted formats: MP3, WAV (PCM, GSM)</p>
+
+<p><strong>call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.</p>
+
+<p><strong>external_call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.</p></blockquote>
+
+<hr />
+
+<h2><a name="insertUser">insertUser</a></h2>
+
+<p><strong>Description</strong>: Insert a user into the designated organization.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>api_secret</strong> (requrired)</p>
+
+<p><strong>email</strong> (required)<br/>
+Email address (username) of user to create. Must be unique.</p>
+
+<p><strong>first_name</strong> (required)<br/>
+First name of user to create.</p>
+
+<p><strong>last_name</strong>  (required)
+Last name of user to create.</p>
+
+<p><strong>ouid</strong> (required)<br/>
+Organizational unit user belongs to.</p>
+
+<p><strong>group_id</strong> (required)<br/>
+Group user belongs to.</p>
+
+<p><strong>external_ouid</strong> (required)<br/>
+Organizational unit user belongs to.</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. This is useful when you want to search using our
+api using the id of the record in your database. Must be unique to your company.</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If user creation was successful, the following json is returned:
+<code>{"status": "success", "user_id": "453"}</code></p>
+
+<p>If creation was unsuccessful, the following json is returned (as an example):
+<code>{"status": "error", "error_message": "Email address exists."}</code></p>
+
+<hr />
+
+<h2><a name="insertGroup">insertGroup</a></h2>
+
+<p><strong>Description</strong>: Insert a group as a child of an organization.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>api_secret</strong> (requrired)</p>
+
+<p><strong>parent_ouid</strong> (required)<br/>
+Parent ID of the organization to create under.</p>
+
+<p><strong>name</strong> (optional)<br/>
+The name of the organizational unit. Can specify partial names to return an array of results matching that string.</p>
+
+<p><strong>address_line_1</strong> (optional)<br/>
+Address organization is in. Not required for non-physical locations.</p>
+
+<p><strong>address_line_2</strong> (optional)<br/>
+Address organization is in. Not required for non-physical locations.</p>
+
+<p><strong>state</strong> (optional)<br/>
+State organization is in. Not required for non-physical locations.</p>
+
+<p><strong>zip</strong> (optional)<br/>
+Zipcode organization is in. Not required for non-physical locations.</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. This is useful when you want to search using our
+api using the id of the record in your database. Must be unique to your company.</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If group creation was successful, the following json is returned:
+<code>{"status": "success", "group_id": "45"}</code></p>
+
+<p>If creation was unsuccessful, the following json is returned (as an example):
+<code>{"status": "error", "error_message": "External ID already exists."}</code></p>
+
+<hr />
+
+<h2><a name="insertComment">insertComment</a></h2>
+
+<p><strong>Description</strong>: Add comment to speficied call detail.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (required)</p>
+
+<p><strong>api_secret</strong> (required)</p>
+
+<p><strong>user_id</strong> (optional)
+ID of user to assign comment to.  Must specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+<p><strong>external_user_id</strong> (optional)
+If <strong>user_id</strong> is not specified, this value must be specified. If you have associated a user to
+an ID from your data source, you may specify this parameter. Must specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+<p><strong>call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.</p>
+
+<p><strong>external_call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.</p>
+
+<p><strong>is_public</strong> (optional)<br/>
+Determines if comment can be seen by entire organization or only by user comment is assigned to. Default
+is public.</p>
+
+<p><strong>comment</strong> (required)<br/>
+Comment to insert.</p></blockquote>
+
+<hr />
+
+<h2><a name="insertTag">insertTag</a></h2>
+
+<p><strong>Description</strong>: Add tag to speficied call detail.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (required)</p>
+
+<p><strong>api_secret</strong> (required)</p>
+
+<p><strong>user_id</strong> (optional)
+ID of user to assign tag to.  Required if is_public is set to 0.  May specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+<p><strong>external_user_id</strong> (optional)
+ID of user to assign tag to.  Required if is_public is set to 0.  May specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+<p><strong>call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.  Must specify either <strong>call_detail_id</strong> OR <strong>external_call_detail_id</strong>.</p>
+
+<p><strong>external_call_detail_id</strong> (required)<br/>
+ID of call detail to assign comment to.  Must specify either <strong>call_detail_id</strong> OR <strong>external_call_detail_id</strong>.</p>
+
+<p><strong>is_public</strong> (optional)<br/>
+Determines if tag can be seen by entire organization or only by user tag is assigned to. Default
+is public.</p>
+
+<p><strong>tag</strong> (required)<br/>
+Tag to insert.</p></blockquote>
+
+<hr />
+
+<h2><a name="updateCallDetail">updateCallDetail</a></h2>
+
+<p><strong>Description</strong>: Update information about a call detail.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (required)</p>
+
+<p><strong>id</strong> (optional)<br/>
+ID of the call detail to update. If this id is not specified an external_id <strong>must</strong> be specified.</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. This is useful when you want to search using our
+api using the id of the record in your database.</p>
+
+<p><strong>call_date</strong> (optional)<br/>
+Time the call started. Format: YYYY-MM-DD HH:MM:SS.<br/>
+example: 2011-08-24 00:00:00</p>
+
+<p><strong>ouid</strong> (optional)<br/>
+ID of the organizational unit to reassign call to.</p>
+
+<p><strong>external_ouid</strong> (optional)<br/>
+External ID of the organizational unit to reassign call to.</p>
+
+<p><strong>caller_id</strong> (optional)</p>
+
+<p><strong>tracking_number</strong> (optional)<br/>
+The tracking number to reassign this call to. Note: if the tracking number you specify already
+belongs to an organization you do not have access to, an error will be returned. If a tracking number isn't specified it will be sortable as "Uploaded" in the "filter by" widget.<br/>
+Format: 12223334444.</p>
+
+<p><strong>ringto_number</strong> (optional)<br/>
+The number that was called.<br/>
+Format: 12223334444</p>
+
+<p><strong>call_type</strong> (optional)<br/>
+Specify whether the call was inbound or outbound.</p>
+
+<p><strong>assign_to</strong> (optional)<br/>
+The email address of the user to assign this call to.<br/>
+Format: user@domain.com</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If the update was successful, the following json is returned:
+<code>{"status": "success", "call_detail_id": "56342"}</code></p>
+
+<p>If the update was unsuccessful, the following json is returned:
+<code>{"status": "error", "error_message": "Wrong file format"}</code></p>
+
+<hr />
+
+<h2><a name="updateUser">updateUser</a></h2>
+
+<p><strong>Description</strong>: Update a specific user by id.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>id</strong> (optional)<br/>
+ID of user to update. If this field is not specified, external_id <strong>must</strong> be specified or the update will fail.</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. Must be unique to all users within your company.</p>
+
+<p><strong>email</strong> (optional)<br/>
+Email address (username) of user to update. Must be unique.</p>
+
+<p><strong>first_name</strong> (optional)<br/>
+First name of user to update.</p>
+
+<p><strong>last_name</strong>  (optional)
+Last name of user to update.</p>
+
+<p><strong>ouid</strong> (optional)<br/>
+Organizational unit user belongs to.</p>
+
+<p><strong>external_ouid</strong> (optional)<br/>
+Organizational unit user belongs to.</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If user update was successful, the following json is returned:
+<code>{"status": "success", "user_id": "453"}</code></p>
+
+<p>If creation was unsuccessful, the following json is returned (as an example):
+<code>{"status": "error", "error_message": "Email address exists."}</code></p>
+
+<hr />
+
+<h2><a name="updateGroup">updateGroup</a></h2>
+
+<p><strong>Description</strong>: Update a group in your company by id.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>api_secret</strong> (requrired)</p>
+
+<p><strong>id</strong> (optional)<br/>
+ID of group to update. If this field is not specified, external_id <strong>must</strong> be specified or update will fail.</p>
+
+<p><strong>external_id</strong> (optional)<br/>
+The foreign key that links the record to your database. Must be unique to all groups within your company.</p>
+
+<p><strong>name</strong> (optional)<br/>
+The name of the organizational unit.</p>
+
+<p><strong>address_line_1</strong> (optional)<br/>
+Address organization is in. Not required for non-physical locations.</p>
+
+<p><strong>address_line_2</strong> (optional)<br/>
+Address organization is in. Not required for non-physical locations.</p>
+
+<p><strong>state</strong> (optional)<br/>
+State organization is in. Not required for non-physical locations.</p>
+
+<p><strong>zip</strong> (optional)<br/>
+Zipcode organization is in. Not required for non-physical locations.</p></blockquote>
+
+<h3>Example Response</h3>
+
+<p>If group update was successful, the following json is returned:
+<code>{"status": "success", "group_id": "45"}</code></p>
+
+<p>If creation was unsuccessful, the following json is returned (as an example):
+<code>{"status": "error", "error_message": "External ID already exists."}</code></p>
+
+<hr />
+
+<h2><a name="getCallDetails">getCallDetails</a></h2>
+
+<p><strong>Description</strong>: Returns a single, or list of, call detail record(s) based on passed criteria.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>api_secret</strong> (requrired)</p>
+
+<p><strong>id</strong> (optional)
+The id of the call detail. Will return a single call detail or "not found".</p>
+
+<p><strong>external_id</strong> (optional)</p>
+
+<p><strong>ouid</strong> (required)<br/>
+The id of the organization the call belongs to.</p>
+
+<p><strong>external_ouid</strong> (required)<br/>
+The id of the organization the call belongs to.</p>
+
+<p><strong>tracking_number</strong> (optional)
+The tracking number the call was assigned to. If you only want to see calls that were uploaded, specify "uploaded" as the tracking number.<br/>
+A minimum of 3 and maximum of 11 digits is required.</p>
+
+<p><strong>ringto_number</strong> (optional)<br/>
+The number that was called.<br/>
+A minimum of 3 and maximum of 11 digits is required.</p>
+
+<p><strong>start</strong> (optional)<br/>
+The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+<p><strong>limit</strong> (optional)</p>
+
+<p><strong>sort_by</strong> (optional)<br/>
+The field to sort by. Options: id, tracking_number, ringto_number</p>
+
+<p><strong>sort_order</strong> (optional)<br/>
+What order to sort results by. Options: desc, asc</p></blockquote>
+
+<h3>Example Response</h3>
+
+<pre><code>[
+"status": "success",
+"matches": "1",
+"results":
+    {
+        "id": "56342", 
+        "call_date": "2011-08-24 00:00:00",
+        "tracking_number": "12223334444",
+        "ringto_number": "12223334444",
+        "caller_id":    "12223334444",
+        "direction": "inbound",
+        "duration": "127",
+        "file_url": "http://www.logmycalls.com/recordings/somesound.mp3",
+        "status": "active",
+        "external_id": "5"
+    }
+]
+</code></pre>
+
+<p>The "results" response will always represent an array, even if only one result is returned. Results will return a
+maximum of 100 results.</p>
+
+<hr />
+
+<h2><a name="getGroups">getGroups</a></h2>
+
+<p><strong>Description</strong>: Returns a single, or list of, groups within an organizational unit based on search criteria.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>api_secret</strong> (requrired)</p>
+
+<p><strong>id</strong> (optional)
+The id of the group. Will return a single group or "not found".</p>
+
+<p><strong>external_id</strong> (optional)</p>
+
+<p><strong>ouid</strong> (required)<br/>
+The id of the organization to search in.</p>
+
+<p><strong>external_ouid</strong> (required)<br/>
+The id of the organization to search in.</p>
+
+<p><strong>name</strong> (optional)<br/>
+The name of the organizational unit. Can specify partial names to return an array of results matching that string.</p>
+
+<p><strong>state</strong> (optional)<br/>
+State organization is in. Format: CA</p>
+
+<p><strong>zip</strong> (optional)<br/>
+Zipcode group is in. Format: 92136</p>
+
+<p><strong>start</strong> (optional)<br/>
+The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+<p><strong>limit</strong> (optional)</p>
+
+<p><strong>stores_only</strong> (optional)<br/>
+Search only for groups which have been marked as a Store in Users/Groups setup page. Options: true, false</p>
+
+<p><strong>sort_by</strong> (optional)<br/>
+The field to sort by. Options: id, name, state, zip</p>
+
+<p><strong>sort_order</strong> (optional)<br/>
+What order to sort results by. Options: desc, asc</p></blockquote>
+
+<h3>Example Response</h3>
+
+<pre><code>[
+"status": "success",
+"matches": "1",
+"results":
+    {
+        "id": "56342", 
+        "parent_id": "34",
+        "name": "Bob's Fat Tacos",
+        "address_line_1": "125 Main St",
+        "address_line_2": "Suite 102",
+        "city": "San Diego",
+        "state": "CA",
+        "zip": "92136",
+        "is_store": "true",
+        "latitude": "32.6822",
+        "longitude": "-117.1094",
+        "phone_number": "6192547848",
+        "status": "active"
+    }
+]
+</code></pre>
+
+<p>The "results" response will always represent an array, even if only one result is returned. Results will return a
+maximum of 50 results.</p>
+
+<hr />
+
+<h2><a name="getSubscriptionInfo">getSubscriptionInfo</a></h2>
+
+<p><strong>Description</strong>: Returns information about your subscription.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p></blockquote>
+
+<h3>Example Response</h3>
+
+<pre><code>[
+"status": "success",
+"results":
+    {
+        "parent_id": "34",
+        "name": "Bob's Fat Tacos",
+        "address_line_1": "125 Main St",
+        "address_line_2": "Suite 102",
+        "city": "San Diego",
+        "state": "CA",
+        "zip": "92136",
+        "is_store": "true",
+        "latitude": "32.6822",
+        "longitude": "-117.1094",
+        "phone_number": "6192547848",
+    }
+]
+</code></pre>
+
+<hr />
+
+<h2><a name="getUsers">getUsers</a></h2>
+
+<p><strong>Description</strong>: Returns a single, or list of, users within an organizational unit based on search criteria.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>email</strong> (optional)<br/>
+Email address (username) of user to search for. Can be a partial string.</p>
+
+<p><strong>first_name</strong> (optional)<br/>
+First name of user to search for. Can be a partial string.</p>
+
+<p><strong>last_name</strong><br/>
+Last name of user to search for. Can be a partial string.</p>
+
+<p><strong>group_id</strong>  (optional) <br/>
+ID of group user is currently assigned to.</p>
+
+<p><strong>ouid</strong> (optional)<br/>
+Organizational unit user belongs to.</p>
+
+<p><strong>external_ouid</strong> (optional)<br/>
+Organizational unit user belongs to. This id must have been previously set via the API using one of the update/insert methods.</p>
+
+<p><strong>start</strong> (optional)<br/>
+The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+<p><strong>limit</strong> (optional)<br/>
+How many records to return. Maximum of 100.</p>
+
+<p><strong>sort_by</strong> (optional)<br/>
+The field to sort by. Options: id, first_name, last_name, group_id</p>
+
+<p><strong>sort_order</strong> (optional)<br/>
+What order to sort results by. Options: desc, asc</p></blockquote>
+
+<h3>Example Response</h3>
+
+<pre><code>[
+"status": "success",
+"results":
+    {
+        "username": "user@yoohoo.com",
+        "first_name": "John",
+        "last_name": "Smith",
+        "group_id": "5",
+        "ouid": "32.6822",
+        "status": "active",
+        "created": "2010-12-14 10:24:02",
+    }
+]
+</code></pre>
+
+<hr />
+
+<h2><a name="deleteRecord">deleteRecord</a></h2>
+
+<p><strong>Description</strong>: Returns a single, or list of, users within an organizational unit based on search criteria.  <strong>Note:</strong> It is
+HIGHLY recommended to use one of the update methods if you are trying to delete an object. This method simply sets "status" to "deleted" but it less
+flexible than the update methods provided for objects.</p>
+
+<h3>Arguments</h3>
+
+<blockquote><p><strong>api_key</strong> (requrired)</p>
+
+<p><strong>type</strong> (required)<br/>
+Record type to delete. Options: tag, comment, group, user. If a group has children groups, delete will not succeed.</p>
+
+<p><strong>id</strong> (required)<br/>
+ID of object to delete</p>
+
+<p><strong>ouid</strong> (required)<br/>
+ID of organization</p></blockquote>
+
+
+ 																</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<div id="rt-footerbar">
+		<div class="rt-container">
+			<div id="rt-footer">
+                <div class="rt-grid-4 rt-alpha">
+                    <div class="rt-block">
+                        <div class="rt-module-inner">
+                            <div class="module-content">
+                               
+                
+                                <div class="clr"></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rt-grid-4">
+                    <div class="clear"></div>
+                    <span class="copytext">&copy;&nbsp;ContactPoint LLC 2011. All rights reserved</span>
+                </div>
+                <div class="rt-grid-4 rt-omega">
+                    <div class="rt-block">
+                        <a href="#" id="gantry-totop"><span class="totop-desc">Scroll To Top</span></a>
+                    </div>
+                </div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display:none;">
+
+</div></div>
+
+
+</body>
+</html>                               

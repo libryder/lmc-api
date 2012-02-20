@@ -1,0 +1,844 @@
+
+
+<p>LogMyCalls provides a felexible and powerful API for users to programmatically manage their account. The endpoint for all methods is</p>
+
+<p><code>https://api.logmycalls.com/services/methodName</code></p>
+
+<p>  All calls must be made over https using the post method.</p>
+
+<hr />
+
+<div id="tabs">
+  
+  <ul>
+    <li><a href="#methods">Methods</a></li>
+    <li><a href="#sample-code">Sample Code</a></li>
+    <li></li>
+  </ul>
+
+
+  <div id="methods">
+    <h1>Methods  </h1>
+
+    <ul>
+    <li><p><strong><a href="#insertCall">insertCall</a></strong> - Insert call detail record.</p></li>
+    <li><p><strong><a href="#uploadAudio">uploadAudio</a></strong> - Attach audio file to call detail.</p></li>
+    <li><p><strong><a href="#insertUser">insertUser</a></strong> - Create user and assign it to an organization.</p></li>
+    <li><p><strong><a href="#insertGroup">insertGroup</a></strong> - Create group and assign it to a parent organization.</p></li>
+    <li><p><strong><a href="#insertComment">insertComment</a></strong> - Insert comment for call detail record.</p></li>
+    <li><p><strong><a href="#insertTag">insertTag</a></strong> - Insert tag for call detail record.</p></li>
+    <li><p><strong><a href="#updateCallDetail">updateCallDetail</a></strong> - Update data for a specific call detail.</p></li>
+    <li><p><strong><a href="#updateUser">updateUser</a></strong> - Update data for a specific call detail.</p></li>
+    <li><p><strong><a href="#updateGroup">updateGroup</a></strong> - Update data for a specific call detail.</p></li>
+    <li><p><strong><a href="#getCallDetails">getCallDetails</a></strong> - Returns a single, or list of, call detail record(s) based on search criteria.</p></li>
+    <li><p><strong><a href="#getGroups">getGroups</a></strong> - Returns a single, or list of, groups within an organizational unit based on search criteria.</p></li>
+    <li><p><strong><a href="#getSubscriptionInfo">getSubscriptionInfo</a></strong> - Returns information about your subscription.</p></li>
+    <li><p><strong><a href="#getUsers">getUsers</a></strong> - Returns a single, or list of, users within a group or ogranization based on search criteria.</p></li>
+    <li><p><strong><a href="#deleteRecord">deleteRecord</a></strong> - Deletes record from account.</p></li>
+    </ul>
+
+    <hr />
+
+    <h2><a name="insertCall">insertCall</a></h2>
+
+    <p><strong>Description</strong>: Insert call detail. Audio for inserted calls must be received separately.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+        
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>calldate</strong> (required)<br/>
+        Time the call started. Format: YYYY-MM-DD HH:MM:SS.<br/>
+        example: 2011-08-24 00:00:00</p>
+
+        <p><strong>ouid</strong> (required)<br/>
+        ID of the organizational unit to assign call to. Either the ouid or external_ouid must be specified for this method.</p>
+
+        <p><strong>external_ouid</strong> (optional)<br/>
+        ID of the organizational unit to assign call to. Either the ouid or external_ouid must be specified for this method.</p>
+
+        <p><strong>caller_id</strong> (required)</p>
+
+        <p><strong>tracking_number</strong> (required)<br/>
+        The tracking number to assign this call to. Note: if the tracking number you specify already
+        belongs to an organization you do not have access to, an error will be returned. If a tracking number isn't specified it will be sortable as "Uploaded" in the "filter by" widget.<br/>
+        Format: 2223334444.</p>
+
+        <p><strong>ringto_number</strong> (required)<br/>
+        The number that was called.<br/>
+        Format: 2223334444</p>
+
+        <p><strong>is_outbound</strong> (optional) [1,0]<br/>
+        0 indicates inbound call; 1 indcates outbound call.</p>
+
+        <p><strong>is_outbound</strong> (optional) [1,0]<br/>
+        0 indicates inbound call; 1 indcates outbound call.</p>
+
+        <p><strong>assign_to</strong> (optional)<br/>
+        The email address of the user to assign this call to.<br/>
+        Format: user@domain.com</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. This is useful when you want to search using our
+        api using the id of the record in your database.</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If the upload and insertion was successful, the following json is returned:
+<code><pre>
+{
+  "status":"success",
+  "call_detail": {
+    "calldate":"2012-01-09T22:24:25Z",
+    "ringto_number":"12345678901",
+    "duration":0,
+    "external_id":"11111",
+    "is_outbound":0,
+    "file_url":null,
+    "ouid":170,
+    "caller_id":"12345678901",
+    "status":"active",
+    "tracking_number":"12345678901",
+    "user_id":0
+  }
+}</pre></code></p>
+
+    <p>If the upload was unsuccessful, the following json is returned:
+    <code>{"status": "error", "error_message": "Wrong file format"}</code></p>
+
+    <hr />
+
+    <h2><a name="uploadAudio">uploadAudio</a></h2>
+
+    <p><strong>Description</strong>: Attach audio file to call detail. Audio for inserted calls must be received separately. This method can also be used to update
+    and existing audio file for a call.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>audio</strong> (required)<br/>
+        Audio file. Accepted formats: MP3, WAV (PCM, GSM)</p>
+
+        <p><strong>call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.</p>
+
+        <p><strong>external_call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.</p>
+      </div>
+    </blockquote>
+
+    <hr />
+
+    <h2><a name="insertUser">insertUser</a></h2>
+
+    <p><strong>Description</strong>: Insert a user into the designated organization.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>email</strong> (required)<br/>
+        Email address (username) of user to create. Must be unique.</p>
+
+        <p><strong>first_name</strong> (required)<br/>
+        First name of user to create.</p>
+
+        <p><strong>last_name</strong>  (required)
+        Last name of user to create.</p>
+
+        <p><strong>ouid</strong> (required)<br/>
+        Organizational unit user belongs to.</p>
+
+        <p><strong>group_id</strong> (required)<br/>
+        Role user belongs to.<br />
+        <strong>Accessible Group ID's</strong>
+        <code><pre>14 - Company Admin	
+15 - Multi-group Admin
+16 - Group Admin
+17 - Standard User</pre></code>
+        </p>
+
+        <p><strong>external_ouid</strong> (required)<br/>
+        Organizational unit user belongs to.</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. This is useful when you want to search using our
+        api using the id of the record in your database. Must be unique to your company.</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If user creation was successful, the following json is returned:
+    <code>{"status": "success", "user_id": "453"}</code></p>
+
+    <p>If creation was unsuccessful, the following json is returned (as an example):
+    <code>{"status": "error", "error_message": "Email address exists."}</code></p>
+
+    <hr />
+
+    <h2><a name="insertGroup">insertGroup</a></h2>
+
+    <p><strong>Description</strong>: Insert a group as a child of an organization.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>parent_ouid</strong> (required)<br/>
+        Parent ID of the organization to create under.</p>
+
+        <p><strong>name</strong> (optional)<br/>
+        The name of the organizational unit. Can specify partial names to return an array of results matching that string.</p>
+
+        <p><strong>address_line_1</strong> (optional)<br/>
+        Address organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>address_line_2</strong> (optional)<br/>
+        Address organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>state</strong> (optional)<br/>
+        State organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>zip</strong> (optional)<br/>
+        Zipcode organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. This is useful when you want to search using our
+        api using the id of the record in your database. Must be unique to your company.</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If group creation was successful, the following json is returned:
+    <code>{"status": "success", "group_id": "45"}</code></p>
+
+    <p>If creation was unsuccessful, the following json is returned (as an example):
+    <code>{"status": "error", "error_message": "External ID already exists."}</code></p>
+
+    <hr />
+
+    <h2><a name="insertComment">insertComment</a></h2>
+
+    <p><strong>Description</strong>: Add comment to speficied call detail.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>user_id</strong> (required)
+        ID of user to assign comment to.  Must specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+        <p><strong>external_user_id</strong> (optional)
+        If <strong>user_id</strong> is not specified, this value must be specified. If you have associated a user to
+        an ID from your data source, you may specify this parameter. Must specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+        <p><strong>call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.</p>
+
+        <p><strong>external_call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.</p>
+
+        <p><strong>is_public</strong> (optional)<br/>
+        Determines if comment can be seen by entire organization or only by user comment is assigned to. Default
+        is public.</p>
+
+        <p><strong>comment</strong> (required)<br/>
+        Comment to insert.</p>
+      </div>
+    </blockquote>
+
+    <hr />
+
+    <h2><a name="insertTag">insertTag</a></h2>
+
+    <p><strong>Description</strong>: Add tag to speficied call detail.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>user_id</strong> (optional)
+        ID of user to assign tag to.  Required if is_public is set to 0.  May specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+        <p><strong>external_user_id</strong> (optional)
+        ID of user to assign tag to.  Required if is_public is set to 0.  May specify either <strong>user_id</strong> OR <strong>external_user_id</strong>.</p>
+
+        <p><strong>call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.  Must specify either <strong>call_detail_id</strong> OR <strong>external_call_detail_id</strong>.</p>
+
+        <p><strong>external_call_detail_id</strong> (required)<br/>
+        ID of call detail to assign comment to.  Must specify either <strong>call_detail_id</strong> OR <strong>external_call_detail_id</strong>.</p>
+
+        <p><strong>is_public</strong> (optional)<br/>
+        Determines if tag can be seen by entire organization or only by user tag is assigned to. Default
+        is public.</p>
+
+        <p><strong>tag</strong> (required)<br/>
+        Tag to insert.</p>
+      </div>
+    </blockquote>
+
+    <hr />
+
+    <h2><a name="updateCallDetail">updateCallDetail</a></h2>
+
+    <p><strong>Description</strong>: Update information about a call detail.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>id</strong> (optional)<br/>
+        ID of the call detail to update. If this id is not specified an external_id <strong>must</strong> be specified.</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. This is useful when you want to search using our
+        api using the id of the record in your database.</p>
+
+        <p><strong>calldate</strong> (optional)<br/>
+        Time the call started. Format: YYYY-MM-DD HH:MM:SS.<br/>
+        example: 2011-08-24 00:00:00</p>
+
+        <p><strong>ouid</strong> (optional)<br/>
+        ID of the organizational unit to reassign call to.</p>
+
+        <p><strong>external_ouid</strong> (optional)<br/>
+        External ID of the organizational unit to reassign call to.</p>
+
+        <p><strong>caller_id</strong> (optional)</p>
+
+        <p><strong>tracking_number</strong> (optional)<br/>
+        The tracking number to reassign this call to. Note: if the tracking number you specify already
+        belongs to an organization you do not have access to, an error will be returned. If a tracking number isn't specified it will be sortable as "Uploaded" in the "filter by" widget.<br/>
+        Format: 2223334444.</p>
+
+        <p><strong>ringto_number</strong> (optional)<br/>
+        The number that was called.<br/>
+        Format: 2223334444</p>
+
+        <p><strong>call_type</strong> (optional)<br/>
+        Specify whether the call was inbound or outbound.</p>
+
+        <p><strong>assign_to</strong> (optional)<br/>
+        The email address of the user to assign this call to.<br/>
+        Format: user@domain.com</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If the update was successful, the following json is returned:
+    <code>{"status": "success", "call_detail_id": "56342"}</code></p>
+
+    <p>If the update was unsuccessful, the following json is returned:
+    <code>{"status": "error", "error_message": "Wrong file format"}</code></p>
+
+    <hr />
+
+    <h2><a name="updateUser">updateUser</a></h2>
+
+    <p><strong>Description</strong>: Update a specific user by id.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>id</strong> (optional)<br/>
+        ID of user to update. If this field is not specified, external_id <strong>must</strong> be specified or the update will fail.</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. Must be unique to all users within your company.</p>
+
+        <p><strong>email</strong> (optional)<br/>
+        Email address (username) of user to update. Must be unique.</p>
+
+        <p><strong>first_name</strong> (optional)<br/>
+        First name of user to update.</p>
+
+        <p><strong>last_name</strong>  (optional)
+        Last name of user to update.</p>
+
+        <p><strong>ouid</strong> (optional)<br/>
+        Organizational unit user belongs to.</p>
+
+        <p><strong>external_ouid</strong> (optional)<br/>
+        Organizational unit user belongs to.</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If user update was successful, the following json is returned:
+    <code>{"status": "success", "user_id": "453"}</code></p>
+
+    <p>If creation was unsuccessful, the following json is returned (as an example):
+    <code>{"status": "error", "error_message": "Email address exists."}</code></p>
+
+    <hr />
+
+    <h2><a name="updateGroup">updateGroup</a></h2>
+
+    <p><strong>Description</strong>: Update a group in your company by id.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>dry_run</strong> (optional)<br />
+        If dry_run is true, no changes will be made to the databse. The method will return expected data without any effect on actual data. Options: true, false</p>
+
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>id</strong> (optional)<br/>
+        ID of group to update. If this field is not specified, external_id <strong>must</strong> be specified or update will fail.</p>
+
+        <p><strong>external_id</strong> (optional)<br/>
+        The foreign key that links the record to your database. Must be unique to all groups within your company.</p>
+
+        <p><strong>name</strong> (optional)<br/>
+        The name of the organizational unit.</p>
+
+        <p><strong>address_line_1</strong> (optional)<br/>
+        Address organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>address_line_2</strong> (optional)<br/>
+        Address organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>state</strong> (optional)<br/>
+        State organization is in. Not required for non-physical locations.</p>
+
+        <p><strong>zip</strong> (optional)<br/>
+        Zipcode organization is in. Not required for non-physical locations.</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <p>If group update was successful, the following json is returned:
+    <code>{"status": "success", "group_id": "45"}</code></p>
+
+    <p>If creation was unsuccessful, the following json is returned (as an example):
+    <code>{"status": "error", "error_message": "External ID already exists."}</code></p>
+
+    <hr />
+
+    <h2><a name="getCallDetails">getCallDetails</a></h2>
+
+    <p><strong>Description</strong>: Returns a single, or list of, call detail record(s) based on passed criteria.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+
+        <p><strong>start</strong> (optional)<br/>
+        The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+        <p><strong>limit</strong> (optional)</p>
+
+        <p><strong>sort_by</strong> (optional)<br/>
+        The field to sort by. Options: id, tracking_number, ringto_number</p>
+
+        <p><strong>sort_order</strong> (optional)<br/>
+        What order to sort results by. Options: desc, asc</p>
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>id</strong> (optional)
+        The id of the call detail. Will return a single call detail or "not found".</p>
+
+        <p><strong>external_id</strong> (optional)</p>
+
+        <p><strong>ouid</strong> (required)<br/>
+        The id of the organization the call belongs to. <strong>external_ouid</strong> can alternatively be used.</p>
+
+        <p><strong>external_ouid</strong> (required)<br/>
+        The id of the organization the call belongs to. <strong>ouid</strong> can alternatively be used.</p>
+
+        <p><strong>tracking_number</strong> (optional)
+        The tracking number the call was assigned to. If you only want to see calls that were uploaded, specify "uploaded" as the tracking number.<br/>
+        A minimum of 3 and maximum of 11 digits is required.</p>
+
+        <p><strong>ringto_number</strong> (optional)<br/>
+        The number that was called.<br/>
+        A minimum of 3 and maximum of 11 digits is required.</p>
+
+				<p><strong>calldate</strong> (optional)<br />
+				The date the call took place. You may pass any portion of the date starting with the year. For example: <br />
+				<pre><code>
+				  <div class="table"><span>2012-01-16 14:22:10</span> - All calls at that specific time</div> 
+				  <div class="table"><span>2012-01-16</span> - All calls on that day</div>
+				  <div class="table"><span>2012</span> - All calls in 2012</div>
+				</code></pre>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <pre><code>[
+    "status": "success",
+    "matches": "1",
+    "results":
+        {
+            "id": "56342", 
+            "calldate": "2011-08-24 00:00:00",
+            "tracking_number": "2223334444",
+            "ringto_number": "2223334444",
+            "caller_id":    "2223334444",
+            "is_outbound": "0",
+            "duration": "127",
+            "file_url": "http://www.logmycalls.com/recordings/somesound.mp3",
+            "status": "active",
+            "external_id": "5"
+        }
+    ]
+    </code></pre>
+
+    <p>The "results" response will always represent an array, even if only one result is returned. Results will return a
+    maximum of 100 results.</p>
+
+    <hr />
+
+    <h2><a name="getGroups">getGroups</a></h2>
+
+    <p><strong>Description</strong>: Returns a single, or list of, groups within an organizational unit based on search criteria.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+
+        <p><strong>api_key</strong> (required)</p>
+
+        <p><strong>api_secret</strong> (required)</p>
+        
+        <p><strong>start</strong> (optional)<br/>
+        The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+        <p><strong>limit</strong> (optional)</p>
+
+        <p><strong>stores_only</strong> (optional)<br/>
+        Search only for groups which have been marked as a Store in Users/Groups setup page. Options: true, false</p>
+
+        <p><strong>sort_by</strong> (optional)<br/>
+        The field to sort by. Options: ouid, name, state, zip</p>
+
+        <p><strong>sort_order</strong> (optional)<br/>
+        What order to sort results by. Options: desc, asc</p>
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>ouid</strong> (optional)<br/>
+        The id of the organization to search in.</p>
+
+        <p><strong>external_ouid</strong> (optional)<br/>
+        The id of the organization to search in.</p>
+
+        <p><strong>name</strong> (optional)<br/>
+        The name of the organizational unit. Can specify partial names to return an array of results matching that string.</p>
+
+        <p><strong>state</strong> (optional)<br/>
+        State organization is in. Format: CA</p>
+
+        <p><strong>zip</strong> (optional)<br/>
+        Zipcode group is in. Format: 92136</p>
+
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <pre><code>[
+    "status": "success",
+    "matches": "1",
+    "results":
+        {
+            "id": "56342", 
+            "parent_id": "34",
+            "name": "Bob's Fat Tacos",
+            "address_line_1": "125 Main St",
+            "address_line_2": "Suite 102",
+            "city": "San Diego",
+            "state": "CA",
+            "zip": "92136",
+            "is_store": "true",
+            "latitude": "32.6822",
+            "longitude": "-117.1094",
+            "phone_number": "6192547848",
+            "status": "active"
+        }
+    ]
+    </code></pre>
+
+    <p>The "results" response will always represent an array, even if only one result is returned. Results will return a
+    maximum of 50 results.</p>
+
+    <hr />
+
+    <h2><a name="getSubscriptionInfo">getSubscriptionInfo</a></h2>
+
+    <p><strong>Description</strong>: Returns information about your subscription.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+        <p><strong>api_key</strong> (required)</p>
+        <p><strong>api_secret</strong> (required)</p>
+      </div>
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <pre><code>
+{
+  "subscription":
+   [{
+     "subscription_name":"LMC Enterprise",
+     "renewal_period":"annual"
+   }]
+}
+    </code></pre>
+
+    <hr />
+
+    <h2><a name="getUsers">getUsers</a></h2>
+
+    <p><strong>Description</strong>: Returns a single, or list of, users within an organizational unit based on search criteria.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+
+      <h4>Meta data</h4>
+      <div class="param-wrap">
+        <p><strong>api_key</strong> (required)</p>
+        <p><strong>api_secret</strong> (required)</p>
+     
+        <p><strong>start</strong> (optional)<br/>
+        The nth record to start from. For example, specifying "30" would get results starting at the 30th result</p>
+
+        <p><strong>limit</strong> (optional)<br/>
+        How many records to return. Maximum of 100.</p>
+
+        <p><strong>sort_by</strong> (optional)<br/>
+        The field to sort by. Options: id, first_name, last_name, group_id</p>
+
+        <p><strong>sort_order</strong> (optional)<br/>
+        What order to sort results by. Options: desc, asc</p>
+      </div>
+
+      <h4>Criteria</h4>
+      <div class="param-wrap">
+        <p><strong>email</strong> (optional)<br/>
+        Email address (username) of user to search for. Can be a partial string.</p>
+
+        <p><strong>first_name</strong> (optional)<br/>
+        First name of user to search for. Can be a partial string.</p>
+
+        <p><strong>last_name</strong> (optional)<br/>
+        Last name of user to search for. Can be a partial string.</p>
+
+        <p><strong>group_id</strong>  (optional) <br/>
+        Role user belongs to.<br />
+        <strong>Accessible Group ID's</strong>
+        <code><pre>14 - Company Admin	
+15 - Multi-group Admin
+16 - Group Admin
+17 - Standard User</pre></code>
+        </p>
+
+        <p><strong>ouid</strong> (optional)<br/>
+        Organizational unit user belongs to.</p>
+
+        <p><strong>external_ouid</strong> (optional)<br/>
+        Organizational unit user belongs to. This id must have been previously set via the API using one of the update/insert methods.</p>
+      </div>
+
+    </blockquote>
+
+    <h3>Example Response</h3>
+
+    <pre><code>[
+    "status": "success",
+    "results":
+        {
+            "username": "user@yoohoo.com",
+            "first_name": "John",
+            "last_name": "Smith",
+            "group_id": "5",
+            "ouid": "32.6822",
+            "status": "active",
+            "created": "2010-12-14T10:24:02Z",
+        }
+    ]
+    </code></pre>
+
+    <hr />
+
+    <h2><a name="deleteRecord">deleteRecord</a></h2>
+
+    <p><strong>Description</strong>: Returns a single, or list of, users within an organizational unit based on search criteria.  <strong>Note:</strong> It is
+    HIGHLY recommended to use one of the update methods if you are trying to delete an object. This method simply sets "status" to "deleted" but it less
+    flexible than the update methods provided for objects.</p>
+
+    <h3>Arguments</h3>
+
+    <blockquote>
+      
+      <h4>Meta data</h4>
+      <div class="param-wrap">  
+        <p><strong>api_key</strong> (required)</p>
+        <p><strong>api_secret</strong> (required)</p>
+      </div>
+      
+      <h4>Criteria</h4>
+      <div class="param-wrap">  
+        <p><strong>type</strong> (required)<br/>
+        Record type to delete. Options: tag, comment, group, user. If a group has children groups, delete will not succeed.</p>
+
+        <p><strong>id</strong> (required)<br/>
+        ID of object to delete</p>
+
+        <p><strong>ouid</strong> (required)<br/>
+        ID of organization</p>
+      </div>
+    </blockquote>
+  </div>
+  
+  <div id="sample-code">
+    <script src="https://gist.github.com/1477421.js"> </script>
+  </div>
+  
+</div>
+
+	
+  
+                          
